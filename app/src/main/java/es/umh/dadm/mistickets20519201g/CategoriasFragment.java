@@ -1,0 +1,140 @@
+package es.umh.dadm.mistickets20519201g;
+
+import android.widget.TextView;  // Add this import
+
+// Add this import
+import es.umh.dadm.mistickets20519201g.objetos.Categoria;
+
+// Add these imports at the top of your file
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+
+// Añadir el nuevo import
+import es.umh.dadm.mistickets20519201g.adaptadores.CatAdapter;
+import es.umh.dadm.mistickets20519201g.persistencia.CategoriaPersistencia;
+
+public class CategoriasFragment extends Fragment {
+    private CatAdapter adapter;
+    private TextView tvNoCategories;
+    private RecyclerView recyclerView;
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public CategoriasFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment CategoriasFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static CategoriasFragment newInstance(String param1, String param2) {
+        CategoriasFragment fragment = new CategoriasFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+        View vista = inflater.inflate(R.layout.fragment_categorias, container, false);
+        
+        // Inicializar vistas
+        tvNoCategories = vista.findViewById(R.id.tvNoCategories);
+        recyclerView = vista.findViewById(R.id.recyclerViewCategorias);
+        
+        // Cargar categorías desde el almacenamiento
+        Categoria.arrayCat = CategoriaPersistencia.cargarCategorias(getContext());
+        
+
+
+        // Inicializar el botón flotante
+        FloatingActionButton fab = vista.findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Navegar al fragmento del formulario
+                fragment_formulario_categoria formularioFragment = new fragment_formulario_categoria();
+                getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.nav_host_fragment, formularioFragment)
+                    .addToBackStack(null)
+                    .commit();
+            }
+        });
+
+        // Configurar RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new CatAdapter(Categoria.arrayCat, getParentFragmentManager());
+        recyclerView.setAdapter(adapter);
+
+        // Actualizar visibilidad
+        actualizarVisibilidad();
+
+        return vista;
+    }
+
+    private void actualizarVisibilidad() {
+        if (Categoria.arrayCat.isEmpty()) {
+            tvNoCategories.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            tvNoCategories.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+            actualizarVisibilidad();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Guardar categorías cuando el fragmento se pausa
+        CategoriaPersistencia.guardarCategorias(getContext(), Categoria.arrayCat);
+    }
+}

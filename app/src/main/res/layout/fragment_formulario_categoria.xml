@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment_formulario_categoria">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/imageViewCategoria"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:src="@android:drawable/ic_menu_gallery" />
+
+            <Button
+                android:id="@+id/btnSelectImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Seleccionar Foto"
+                android:layout_marginBottom="16dp" />
+
+            <EditText
+                android:id="@+id/nombreCategoria"
+                android:layout_width="323dp"
+                android:layout_height="56dp"
+                android:hint="Titulo" />
+
+            <EditText
+                android:id="@+id/descripcioncortaCategoria"
+                android:layout_width="323dp"
+                android:layout_height="55dp"
+                android:hint="Descripcion corta" />
+
+            <EditText
+                android:id="@+id/descripcionlargaCategoria"
+                android:layout_width="323dp"
+                android:layout_height="132dp"
+                android:hint="Descripcion Larga" />
+
+            <EditText
+                android:id="@+id/detallesCategoria"
+                android:layout_width="323dp"
+                android:layout_height="56dp"
+                android:hint="Detalles" />
+
+            <Button
+                android:id="@+id/buttonGuardarObjCategoria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardar Categoría" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

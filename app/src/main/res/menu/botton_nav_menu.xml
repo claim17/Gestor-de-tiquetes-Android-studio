@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="Ticket"
+        android:icon="@drawable/iticket"
+        android:id="@+id/ticket"/>/>
+    <item android:title="Categorias"
+        android:icon="@drawable/icat"
+        android:id="@+id/categorias"/>
+    />
+</menu>
